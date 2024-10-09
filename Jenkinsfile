@@ -20,10 +20,9 @@ pipeline {
         stage('Deploy to Kubernetes with Helm') {
             steps {
                 script {
-                    def kubeconfig = writeFile file: 'kubeconfig', text: KUBE_CONFIG
-                    withEnv(["KUBECONFIG=${kubeconfig}"]) {
                         sh '''
-                        helm upgrade --install sock-shop-carts /olamide/sock-shop-carts \
+                        cd ${WORKSPACE}/sock-shop-carts
+                        helm upgrade --install sock-shop-carts .
                         '''
                     }
                 }
