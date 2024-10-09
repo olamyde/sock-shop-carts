@@ -21,7 +21,7 @@ pipeline {
             steps {
                 script {
                     sh '''
-                    helm upgrade --install sock-shop-carts ./sock-shop-carts/
+                    helm upgrade --install sock-shop-carts /home/olamide/sock-shop/sock-shop-carts
                     '''
                 }
             }
