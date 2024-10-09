@@ -13,7 +13,7 @@ pipeline {
             steps {
                 script {
                     // Use the local Minikube kubeconfig file
-                    env.KUBECONFIG = "${HOME}/.kube/config"
+                    env.KUBECONFIG = "/home/olamide/.kube/config"
                 }
             }
         }
