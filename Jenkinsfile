@@ -19,7 +19,6 @@ pipeline {
 
         stage('Deploy to Kubernetes with Helm') {
             steps {
-                script {
                         sh '''
                         cd ${WORKSPACE}/sock-shop-carts
                         helm upgrade --install sock-shop-carts .
@@ -28,7 +27,7 @@ pipeline {
                 }
             }
         }
-    }
+
     post {
         always {
             cleanWs() // Cleans the workspace after the build
