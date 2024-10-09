@@ -20,7 +20,6 @@ pipeline {
         stage('Deploy to Kubernetes with Helm') {
             steps {
                         sh '''
-                        cd ${WORKSPACE}
                         helm upgrade --install sock-shop-carts /sock-shop-carts/
                         '''
                     }
