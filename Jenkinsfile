@@ -13,30 +13,17 @@ pipeline {
     stages {
         stage('Checkout Code') {
             steps {
-                git url: 'https://github.com/your-repo/your-app', branch: 'main'
+                git url: 'https://github.com/olamyde/sock-shop-carts.git', branch: 'main'
             }
         }
-        stage('Build Docker Image') {
-            steps {
-                script {
-                    docker.withRegistry('https://index.docker.io/v1/', DOCKERHUB_CREDENTIALS) {
-                        def appImage = docker.build("your-repo/your-app:latest")
-                        appImage.push()
-                    }
-                }
-            }
-        }
+
         stage('Deploy to Kubernetes with Helm') {
             steps {
                 script {
                     def kubeconfig = writeFile file: 'kubeconfig', text: KUBE_CONFIG
                     withEnv(["KUBECONFIG=${kubeconfig}"]) {
-                        sh 'helm repo add your-repo https://example.com/charts'
-                        sh 'helm repo update'
                         sh '''
-                        helm upgrade --install your-release-name your-chart-path \
-                        --set image.repository=your-repo/your-app \
-                        --set image.tag=latest
+                        helm upgrade --install sock-shop-carts /olamide/sock-shop-carts \
                         '''
                     }
                 }
