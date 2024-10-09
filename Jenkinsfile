@@ -2,7 +2,7 @@ pipeline {
     agent any
     environment {
         DOCKERHUB_CREDENTIALS = credentials('del-docker-hub-auth')
-        KUBE_CONFIG = credentials('kube-config') 
+        KUBE_CONFIG = credentials('kube-config')
     }
     options {
         buildDiscarder(logRotator(numToKeepStr: '20'))
@@ -16,20 +16,21 @@ pipeline {
                 git url: 'https://github.com/olamyde/sock-shop-carts.git', branch: 'main'
             }
         }
-
         stage('Deploy to Kubernetes with Helm') {
             steps {
+                script {
+                    withEnv(["KUBECONFIG=${KUBE_CONFIG}"]) {
                         sh '''
-                        helm upgrade --install sock-shop-carts /sock-shop-carts/
+                        helm upgrade --install sock-shop-carts ./sock-shop-carts/
                         '''
                     }
                 }
             }
         }
-
+    }
     post {
         always {
             cleanWs() // Cleans the workspace after the build
         }
     }
-
+}
