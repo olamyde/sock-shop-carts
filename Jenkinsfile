@@ -30,8 +30,7 @@ pipeline {
     }
     post {
         always {
-            // Wrap cleanWs() in a node block to ensure it has the required context
-            node {
+                 {
                 cleanWs() // Cleans the workspace after the build
             }
         }
