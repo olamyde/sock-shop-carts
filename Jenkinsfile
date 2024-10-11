@@ -29,7 +29,7 @@ pipeline {
                             echo "No changes to commit"
                         else
                             git commit -m "updating APPS  to ${BUILD_NUMBER}"
-                            git push https://github.com/olamyde/sock-shop-carts.git main
+                            git push origin main
                         fi
                     '''
                 }
