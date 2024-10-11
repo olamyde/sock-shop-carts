@@ -48,8 +48,8 @@ pipeline {
                     
                     // Install or upgrade using Helm
                     sh '''
-                        helm upgrade --install "${releaseName}" ./sock-shop-carts 
-                        # helm upgrade --install "${releaseName}" .
+                        # helm upgrade --install "${releaseName}" ./sock-shop-carts 
+                        helm upgrade --install "${releaseName}" .
                     '''
                 }
             }
