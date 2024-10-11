@@ -12,22 +12,13 @@ pipeline {
     }
     stages {
         stage('trigger-deployment') {
-            agent {
-                label 'deploy'
-            }
-            when {
-                expression {
-                    env.GIT_BRANCH == 'origin/main'
-                }
-            }
             steps {
                 withCredentials([usernamePassword(credentialsId: 's7deji-github2', usernameVariable: 'GIT_USERNAME', passwordVariable: 'GIT_PASSWORD')]) {
                     sh '''
-                        TAG=$(git rev-parse --short=6 HEAD)
-                        cd sock-shop-carts
+                        TAG=${BUILD_NUMBER}
 
-                        # Update all key values in `values.yaml` with the TAG
-                        yq eval '(.[] | select(tag == "!!str")) = "'"$TAG"'"' -i values.yaml
+                        # Update key values in `values.yaml` with the TAG
+                        yq eval '.image.tag = "'"$TAG"'"' -i values.yaml
 
                         # Configure Git with GitHub credentials
                         git config --global user.name "olamyde"
@@ -37,7 +28,7 @@ pipeline {
                         if git diff-index --quiet HEAD; then
                             echo "No changes to commit"
                         else
-                            git commit -m "updating all keys to ${TAG}"
+                            git commit -m "updating APPS  to ${BUILD_NUMBER}"
                             git push https://github.com/olamyde/sock-shop-carts.git main
                         fi
                     '''
