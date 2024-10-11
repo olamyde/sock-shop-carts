@@ -50,7 +50,6 @@ pipeline {
                         export KUBECONFIG=/home/automation/.kube/config
                         helm upgrade --install "${releaseName}" "./sock-shop-carts" \\
                             --namespace "${namespace}" \\
-                            --create-namespace \\
                             -f values.yaml \\
                             --set image.tag=${BUILD_NUMBER}
                     '''
@@ -60,17 +59,14 @@ pipeline {
     }
     
     post {
-        success {
-            slackSend(channel: '#development-alerts', color: 'good', message: "SUCCESSFUL: Application Eric-do-it-yourself-assets Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+        always {
+            echo 'Pipeline finished.'
         }
-        unstable {
-            slackSend(channel: '#development-alerts', color: 'warning', message: "UNSTABLE: Application Eric-do-it-yourself-assets Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+        success {
+            echo 'Pipeline succeeded!'
         }
         failure {
-            slackSend(channel: '#development-alerts', color: '#FF0000', message: "FAILURE: Application Eric-do-it-yourself-assets Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
-        }
-        cleanup {
-            deleteDir()
+            echo 'Pipeline failed!'
         }
     }
 }
