@@ -2,7 +2,7 @@ pipeline {
     agent any
     environment {
         DOCKERHUB_CREDENTIALS = credentials('del-docker-hub-auth')
-        GITHUB_CREDENTIALS = credentials('s7deji-github2') // Add GitHub credentials here
+        GITHUB_CREDENTIALS = credentials('github-s7deji') // Add GitHub credentials here
     }
     options {
         buildDiscarder(logRotator(numToKeepStr: '20'))
