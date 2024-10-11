@@ -8,7 +8,6 @@ pipeline {
         buildDiscarder(logRotator(numToKeepStr: '20'))
         disableConcurrentBuilds()
         timeout(time: 60, unit: 'MINUTES')
- 
     }
     stages {
         stage('trigger-deployment') {
@@ -21,8 +20,13 @@ pipeline {
                         git fetch --all
                         git checkout main
 
-                        # Pull the latest changes with a specified strategy (e.g., rebase)
-                        git pull --rebase origin main
+                        # Pull the latest changes with rebase, resolving conflicts by keeping local changes
+                        git pull --rebase origin main || {
+                            echo "Conflict detected. Resolving using ours strategy."
+                            git checkout --ours values.yaml
+                            git add values.yaml
+                            git rebase --continue || git rebase --abort
+                        }
 
                         # Update key values in `values.yaml` with the TAG
                         yq eval '.image.tag = "'"$TAG"'"' -i values.yaml
@@ -31,10 +35,9 @@ pipeline {
                         git config --global user.name "olamyde"
                         git config --global user.email "olamyde13@gmail.com"
 
+                        # Commit and push changes
                         git add -A
                         git commit -m "updating APPS to ${BUILD_NUMBER}"
-                        
-                        # Push changes to the main branch
                         git push https://$GIT_USERNAME:$GIT_PASSWORD@github.com/olamyde/sock-shop-carts.git main
                     '''
                 }
@@ -50,9 +53,9 @@ pipeline {
                     
                     // Install or upgrade using Helm
                     sh '''
-                        export KUBECONFIG=/home/automation/.kube/config
                         helm upgrade --install "${releaseName}" "./sock-shop-carts" \\
                             --namespace "${namespace}" \\
+                            --create-namespace \\
                             -f values.yaml \\
                             --set image.tag=${BUILD_NUMBER}
                     '''
