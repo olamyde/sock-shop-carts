@@ -38,6 +38,27 @@ pipeline {
             }
         }
     }
+
+stage('Helm Install/Upgrade') {
+            steps {
+                script {
+                    // Define the Helm release name and namespace
+                    def releaseName = "sock-shop-carts"
+                    def namespace = "sock-shop"
+                    
+                    // Install or upgrade using Helm
+                    sh """
+                        helm upgrade --install ${releaseName} ./sock-shop-carts \\
+                            --namespace ${namespace} \\
+                            --create-namespace \\
+                            -f values.yaml \\
+                            --set image.tag=${BUILD_NUMBER}
+                    """
+                }
+            }
+        }
+    }
+
     post {
         success {
             slackSend(channel: '#development-alerts', color: 'good', message: "SUCCESSFUL: Application Eric-do-it-yourself-assets  Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
