@@ -11,8 +11,8 @@ pipeline {
         buildDiscarder(logRotator(numToKeepStr: '20'))
         disableConcurrentBuilds()
         timeout(time: 60, unit: 'MINUTES')
-    // }
-    // stages {
+    }
+    stages {
     //     stage('trigger-deployment') {
     //         steps {
     //             withCredentials([usernamePassword(credentialsId: 'github-s7deji', usernameVariable: 'GIT_USERNAME', passwordVariable: 'GIT_PASSWORD')]) {
