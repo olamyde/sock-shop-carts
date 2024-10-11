@@ -20,14 +20,6 @@ pipeline {
                         git fetch --all
                         git checkout main
 
-                        # Pull the latest changes with rebase, resolving conflicts by keeping local changes
-                        git pull --rebase origin main || {
-                            echo "Conflict detected. Resolving using ours strategy."
-                            git checkout --ours values.yaml
-                            git add values.yaml
-                            git rebase --continue || git rebase --abort
-                        }
-
                         # Update key values in `values.yaml` with the TAG
                         yq eval '.image.tag = "'"$TAG"'"' -i values.yaml
 
