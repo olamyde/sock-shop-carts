@@ -20,7 +20,10 @@ pipeline {
                         # Fetch all branches and checkout the main branch
                         git fetch --all
                         git checkout main
-                        
+
+                        # Pull the latest changes to avoid non-fast-forward errors
+                        git pull origin main 
+                                               
                         # Update key values in `values.yaml` with the TAG
                         yq eval '.image.tag = "'"$TAG"'"' -i values.yaml
 
