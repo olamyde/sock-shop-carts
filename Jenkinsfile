@@ -2,7 +2,7 @@ pipeline {
     agent any
     environment {
         DOCKERHUB_CREDENTIALS = credentials('del-docker-hub-auth')
-        GITHUB_CREDENTIALS = credentials('github-s7deji') // Add GitHub credentials here
+        GITHUB_CREDENTIALS = credentials('github-s7deji')
     }
     options {
         buildDiscarder(logRotator(numToKeepStr: '20'))
@@ -16,7 +16,11 @@ pipeline {
                 withCredentials([usernamePassword(credentialsId: 'github-s7deji', usernameVariable: 'GIT_USERNAME', passwordVariable: 'GIT_PASSWORD')]) {
                     sh '''
                         TAG=${BUILD_NUMBER}
-
+                        
+                        # Fetch all branches and checkout the main branch
+                        git fetch --all
+                        git checkout main
+                        
                         # Update key values in `values.yaml` with the TAG
                         yq eval '.image.tag = "'"$TAG"'"' -i values.yaml
 
@@ -25,9 +29,10 @@ pipeline {
                         git config --global user.email "olamyde13@gmail.com"
 
                         git add -A
-                   
                         git commit -m "updating APPS  to ${BUILD_NUMBER}"
-                        git push https://$GIT_USERNAME:$GIT_PASSWORD@github.com/olamyde/sock-shop-carts.git     
+                        
+                        # Push changes to the main branch
+                        git push https://$GIT_USERNAME:$GIT_PASSWORD@github.com/olamyde/sock-shop-carts.git main
                     '''
                 }
             }
