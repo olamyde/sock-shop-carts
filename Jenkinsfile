@@ -48,10 +48,8 @@ pipeline {
                     
                     // Install or upgrade using Helm
                     sh '''
-                        helm upgrade --install "${releaseName}" "./sock-shop-carts" \\
-                            --namespace "${namespace}" \\
-                            -f values.yaml \\
-                            --set image.tag=${BUILD_NUMBER}
+                        helm upgrade --install "${releaseName}" ./sock-shop-carts 
+                        # helm upgrade --install "${releaseName}" .
                     '''
                 }
             }
