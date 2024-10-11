@@ -1,5 +1,8 @@
 pipeline {
     agent any
+    parameters {
+        string(name: 'BUILD_NUMBER', defaultValue: '1.0.1', description: 'Build version number for tagging')
+    }
     environment {
         DOCKERHUB_CREDENTIALS = credentials('s7deji-dockerhub')
         GITHUB_CREDENTIALS = credentials('github-s7deji')
@@ -47,7 +50,6 @@ pipeline {
                     sh '''
                         helm upgrade --install "${releaseName}" "./sock-shop-carts" \\
                             --namespace "${namespace}" \\
-                            --create-namespace \\
                             -f values.yaml \\
                             --set image.tag=${BUILD_NUMBER}
                     '''
