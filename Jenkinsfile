@@ -39,7 +39,7 @@ pipeline {
         }
     }
 
-stage('Helm Install/Upgrade') {
+    stage('Helm Install/Upgrade') {
             steps {
                 script {
                     // Define the Helm release name and namespace
@@ -73,4 +73,4 @@ stage('Helm Install/Upgrade') {
             deleteDir()
         }
     }
-}
+
