@@ -47,6 +47,7 @@ pipeline {
                     
                     // Install or upgrade using Helm
                     sh '''
+                        export KUBECONFIG=/home/automation/.kube/config
                         helm upgrade --install "${releaseName}" "./sock-shop-carts" \\
                             --namespace "${namespace}" \\
                             --create-namespace \\
