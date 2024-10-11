@@ -1,7 +1,7 @@
 pipeline {
     agent any
     environment {
-        # DOCKERHUB_CREDENTIALS = credentials('del-docker-hub-auth')
+        # DOCKERHUB_CREDENTIALS = credentials('s7deji-dockerhub')
         GITHUB_CREDENTIALS = credentials('github-s7deji')
     }
     options {
