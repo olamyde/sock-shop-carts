@@ -29,7 +29,7 @@ pipeline {
                         git config --global user.email "olamyde13@gmail.com"
 
                         git add -A
-                        git commit -m "updating APPS  to ${BUILD_NUMBER}"
+                        git commit -m "updating APPS to ${BUILD_NUMBER}"
                         
                         # Push changes to the main branch
                         git push https://$GIT_USERNAME:$GIT_PASSWORD@github.com/olamyde/sock-shop-carts.git main
@@ -37,8 +37,7 @@ pipeline {
                 }
             }
         }
-    }
-
+        
         stage('Helm Install/Upgrade') {
             steps {
                 script {
@@ -58,13 +57,13 @@ pipeline {
             }
         }
     }
-
+    
     post {
         success {
-            slackSend(channel: '#development-alerts', color: 'good', message: "SUCCESSFUL: Application Eric-do-it-yourself-assets  Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+            slackSend(channel: '#development-alerts', color: 'good', message: "SUCCESSFUL: Application Eric-do-it-yourself-assets Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
         }
         unstable {
-            slackSend(channel: '#development-alerts', color: 'warning', message: "UNSTABLE: Application Eric-do-it-yourself-assets  Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+            slackSend(channel: '#development-alerts', color: 'warning', message: "UNSTABLE: Application Eric-do-it-yourself-assets Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
         }
         failure {
             slackSend(channel: '#development-alerts', color: '#FF0000', message: "FAILURE: Application Eric-do-it-yourself-assets Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
@@ -73,4 +72,4 @@ pipeline {
             deleteDir()
         }
     }
-
+}
