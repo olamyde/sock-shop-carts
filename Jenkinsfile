@@ -13,7 +13,7 @@ pipeline {
     stages {
         stage('trigger-deployment') {
             steps {
-                withCredentials([usernamePassword(credentialsId: 's7deji-github2', usernameVariable: 'GIT_USERNAME', passwordVariable: 'GIT_PASSWORD')]) {
+                withCredentials([usernamePassword(credentialsId: 'github-s7deji', usernameVariable: 'GIT_USERNAME', passwordVariable: 'GIT_PASSWORD')]) {
                     sh '''
                         TAG=${BUILD_NUMBER}
 
@@ -29,7 +29,7 @@ pipeline {
                             echo "No changes to commit"
                         else
                             git commit -m "updating APPS  to ${BUILD_NUMBER}"
-                            git push origin main
+                            git push https://$GIT_USERNAME:$GIT_PASSWORD@github.com/olamyde/sock-shop-carts.git
                         fi
                     '''
                 }
