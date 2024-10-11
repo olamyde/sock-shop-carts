@@ -39,7 +39,7 @@ pipeline {
         }
     }
 
-    stage('Helm Install/Upgrade') {
+        stage('Helm Install/Upgrade') {
             steps {
                 script {
                     // Define the Helm release name and namespace
@@ -47,13 +47,13 @@ pipeline {
                     def namespace = "sock-shop"
                     
                     // Install or upgrade using Helm
-                    sh """
+                    sh '''
                         helm upgrade --install ${releaseName} ./sock-shop-carts \\
                             --namespace ${namespace} \\
                             --create-namespace \\
                             -f values.yaml \\
                             --set image.tag=${BUILD_NUMBER}
-                    """
+                    '''
                 }
             }
         }
