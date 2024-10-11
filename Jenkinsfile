@@ -25,12 +25,9 @@ pipeline {
                         git config --global user.email "olamyde13@gmail.com"
 
                         git add -A
-                        if git diff-index --quiet HEAD; then
-                            echo "No changes to commit"
-                        else
-                            git commit -m "updating APPS  to ${BUILD_NUMBER}"
-                            git push https://$GIT_USERNAME:$GIT_PASSWORD@github.com/olamyde/sock-shop-carts.git
-                        fi
+                   
+                        git commit -m "updating APPS  to ${BUILD_NUMBER}"
+                        git push https://$GIT_USERNAME:$GIT_PASSWORD@github.com/olamyde/sock-shop-carts.git     
                     '''
                 }
             }
