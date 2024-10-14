@@ -1,11 +1,11 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: sock-shop-carts
+  name: shop-shop
   annotations:
         prometheus.io/scrape: 'true'
   labels:
-    name: sock-shop-carts
+    name: shop-shop
   namespace: sock-shop
 spec:
   ports:
