@@ -1,7 +1,7 @@
 {{/*
 Expand the name of the chart.
 */}}
-{{- define "sock-shop-carts.name" -}}
+{{- define "sock-shop.name" -}}
 {{- default .Chart.Name .Values.nameOverride | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
@@ -10,7 +10,7 @@ Create a default fully qualified app name.
 We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
 If release name contains chart name it will be used as a full name.
 */}}
-{{- define "sock-shop-carts.fullname" -}}
+{{- define "sock-shop.fullname" -}}
 {{- if .Values.fullnameOverride }}
 {{- .Values.fullnameOverride | trunc 63 | trimSuffix "-" }}
 {{- else }}
@@ -26,16 +26,16 @@ If release name contains chart name it will be used as a full name.
 {{/*
 Create chart name and version as used by the chart label.
 */}}
-{{- define "sock-shop-carts.chart" -}}
+{{- define "sock-shop.chart" -}}
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
 {{/*
 Common labels
 */}}
-{{- define "sock-shop-carts.labels" -}}
-helm.sh/chart: {{ include "sock-shop-carts.chart" . }}
-{{ include "sock-shop-carts.selectorLabels" . }}
+{{- define "sock-shop.labels" -}}
+helm.sh/chart: {{ include "sock-shop.chart" . }}
+{{ include "sock-shop.selectorLabels" . }}
 {{- if .Chart.AppVersion }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
@@ -45,17 +45,17 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{/*
 Selector labels
 */}}
-{{- define "sock-shop-carts.selectorLabels" -}}
-app.kubernetes.io/name: {{ include "sock-shop-carts.name" . }}
+{{- define "sock-shop.selectorLabels" -}}
+app.kubernetes.io/name: {{ include "sock-shop.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 
 {{/*
 Create the name of the service account to use
 */}}
-{{- define "sock-shop-carts.serviceAccountName" -}}
+{{- define "sock-shop.serviceAccountName" -}}
 {{- if .Values.serviceAccount.create }}
-{{- default (include "sock-shop-carts.fullname" .) .Values.serviceAccount.name }}
+{{- default (include "sock-shop.fullname" .) .Values.serviceAccount.name }}
 {{- else }}
 {{- default "default" .Values.serviceAccount.name }}
 {{- end }}
