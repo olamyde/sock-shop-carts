@@ -1,22 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: sock-shop-carts
+  name: shop-shop
   labels:
-    name: sock-shop-carts
+    name: shop-shop
   namespace: sock-shop
 spec:
   replicas: 5
   selector:
     matchLabels:
-      name: sock-shop-carts
+      name: shop-shop
   template:
     metadata:
       labels:
-        name: sock-shop-carts
+        name: shop-shop
     spec:
       containers:
-      - name: sock-shop-carts
+      - name: shop-shop
         image: weaveworksdemos/carts:0.4.8
         env:
          - name: JAVA_OPTS
