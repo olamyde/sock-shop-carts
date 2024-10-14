@@ -1,9 +1,5 @@
 apiVersion: v2
-<<<<<<< HEAD
 name: sock-shop-carts
-=======
-name: sock-shop-chart
->>>>>>> b5d2338af586881aec3c5d8fc2e5b0d85595254c
 description: A Helm chart for Kubernetes
 
 # A chart can be either an 'application' or a 'library' chart.
